@@ -21,6 +21,30 @@ Field::Field(Point endPoints[4], Ball ball) {
 	this->startingPoint = ball.center;
 }
 
+int Field::Place(Point p, Line AB, Line BC, Line CD, Line DA){
+	// If the equation has a negative solution, it means that the ball is out of bounds.
+	
+	int place = 0; // in the field 
+
+    if((AB.A*p.x + AB.B*p.y + AB.C) < 0){
+        place = 1; // outside AB
+    }
+        
+	if((BC.A*p.x + BC.B*p.y + BC.C) < 0){
+        place = 2; // outside BC
+    }
+
+    if((CD.A*p.x + CD.B*p.y + CD.C) < 0){
+        place = 3; // outside CD
+    }
+        
+	if((DA.A*p.x + DA.B*p.y + DA.C) < 0){
+        place = 4; // outside DA
+    }
+    
+	return place;
+}
+
 void Field::hit(Point target, double power) {
 	if(power < 1 || power > 10){
         cout << "The power must be in";
@@ -45,10 +69,14 @@ void Field::hit(Point target, double power) {
     Line CD(endPointsWithBallRadius[2], endPointsWithBallRadius[3]);
     Line DA(endPointsWithBallRadius[3], endPointsWithBallRadius[0]);
 
+	if(Place(startingPoint, AB, BC, CD, DA) !=0 ){
+        throw "Wrong strating point.";
+    }
+
 	Point FinalPoint;
 	FinalPoint.x = startingPoint.x + ( (target.x-startingPoint.x) *power);
 	FinalPoint.y = startingPoint.y + ( (target.y-startingPoint.y) *power);
-	
+
 }
 ostream& operator<<(ostream& os, const Field& f) {
 	os << "Field points:" << endl;
