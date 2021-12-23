@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Ball.h"
-#include "Line.cpp"
+#include "Line.h"
 
 class Field {
 	Ball ball;
