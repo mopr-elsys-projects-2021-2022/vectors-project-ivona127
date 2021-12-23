@@ -15,6 +15,7 @@ public:
 	int Place(Point p, Line AB, Line BC, Line CD, Line DA);
 	int inTheCorner(Point p);
 	int FallingIntoCorner(Point p, Line onLine);
+	void SymmetricalPoint(Point FinalPoint, double x, double y, Line AB, Line BC, Line CD, Line DA);
 	void movement(Point end, Line AB, Line BC, Line CD, Line DA);
 	void hit(Point target, double power);
 

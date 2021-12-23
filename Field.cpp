@@ -80,6 +80,64 @@ int Field:: FallingIntoCorner(Point p, Line onLine){
 	return corner;
 }
 
+void Field:: SymmetricalPoint(Point FinalPoint, double x, double y, Line AB, Line BC, Line CD, Line DA){
+	Point crossing(x,y);
+    Point eventualEnd(2*crossing.x - FinalPoint.x, 2*crossing.y - FinalPoint.y);
+	Line onLine(crossing, eventualEnd);
+	if(FallingIntoCorner(eventualEnd, onLine)==0){
+		if(Place(eventualEnd, AB, BC, CD, DA)!=0){
+            (eventualEnd, AB, BC, CD, DA);
+		}else{
+			ball.center.x = 2*crossing.x - FinalPoint.x;
+			ball.center.y = 2*crossing.y - FinalPoint.y;
+		}  
+	}
+}
+
+void Field:: movement(Point FinalPoint, Line AB, Line BC, Line CD, Line DA){
+    int crossedLine = Place(FinalPoint, AB, BC, CD, DA);
+
+    switch(crossedLine){
+        case 1: {
+            Line ab(AB.A, AB.B);
+            ab.C = -(ab.A*FinalPoint.x) - ab.B*FinalPoint.y;
+            double x = (AB.B*ab.C - ab.B*AB.C) / (AB.A*ab.B - ab.A*AB.B);
+            double y = (AB.C*ab.A - ab.C*AB.A) / (AB.A*ab.B - ab.A*AB.B);
+            SymmetricalPoint(FinalPoint, x, y, AB, BC, CD, DA);
+            break;
+        }
+        case 2: {
+            Line bc(BC.A, BC.B);
+            bc.C = -(bc.A*FinalPoint.x) - bc.B*FinalPoint.y;
+            double x = (BC.B*bc.C - bc.B*BC.C) / (BC.A*bc.B - bc.A*BC.B);
+            double y = (BC.C*bc.A - bc.C*BC.A) / (BC.A*bc.B - bc.A*BC.B);
+            SymmetricalPoint(FinalPoint, x, y, AB, BC, CD, DA);
+            break;
+        }
+        case 3: {
+            Line cd(CD.A, CD.B);
+            cd.C = -(cd.A*FinalPoint.x) - cd.B*FinalPoint.y;
+            double x = (CD.B*cd.C - cd.B*CD.C) / (CD.A*cd.B - cd.A*CD.B);
+            double y = (CD.C*cd.A - cd.C*CD.A) / (CD.A*cd.B - cd.A*CD.B);
+            SymmetricalPoint(FinalPoint, x, y, AB, BC, CD, DA);
+            break;
+        }
+        case 4: {
+            Line da(DA.A, DA.B);
+            da.C = -(da.A*FinalPoint.x) - da.B*FinalPoint.y;
+            double x = (DA.B*da.C - da.B*DA.C) / (DA.A*da.B - da.A*DA.B);
+            double y = (DA.C*da.A - da.C*DA.A) / (DA.A*da.B - da.A*DA.B);
+            SymmetricalPoint(FinalPoint, x, y, AB, BC, CD, DA);
+            break;
+        }
+        default: {
+            ball.center.x = FinalPoint.x;
+            ball.center.y = FinalPoint.y;
+            break;
+        }
+	}
+}
+
 void Field::hit(Point target, double power) {
 	if(power < 1 || power > 10){
         cout << "The power must be in" << endl;
@@ -117,7 +175,7 @@ void Field::hit(Point target, double power) {
 	FinalPoint.x = startingPoint.x + ( (target.x-startingPoint.x) *power);
 	FinalPoint.y = startingPoint.y + ( (target.y-startingPoint.y) *power);
 	
-	//movement(FinalPoint, AB, BC, CD, DA); // moving the ball
+	movement(FinalPoint, AB, BC, CD, DA); // moving the ball
 }
 ostream& operator<<(ostream& os, const Field& f) {
 	os << "Field points:" << endl;
