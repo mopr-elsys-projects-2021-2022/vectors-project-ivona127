@@ -86,7 +86,9 @@ void Field:: SymmetricalPoint(Point FinalPoint, double x, double y, Line AB, Lin
 	Line onLine(crossing, eventualEnd);
 	if(FallingIntoCorner(eventualEnd, onLine)==0){
 		if(Place(eventualEnd, AB, BC, CD, DA)!=0){
-            (eventualEnd, AB, BC, CD, DA);
+			if(Place(eventualEnd, AB, BC, CD, DA)!=0){
+                movement(eventualEnd, AB, BC, CD, DA);
+			}
 		}else{
 			ball.center.x = 2*crossing.x - FinalPoint.x;
 			ball.center.y = 2*crossing.y - FinalPoint.y;
