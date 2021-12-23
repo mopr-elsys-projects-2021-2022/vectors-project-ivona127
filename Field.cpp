@@ -23,7 +23,6 @@ Field::Field(Point endPoints[4], Ball ball) {
 
 int Field::Place(Point p, Line AB, Line BC, Line CD, Line DA){
 	// If the equation has a negative solution, it means that the ball is out of bounds.
-	
 	int place = 0; // in the field 
 
     if((AB.A*p.x + AB.B*p.y + AB.C) < 0){
@@ -46,6 +45,7 @@ int Field::Place(Point p, Line AB, Line BC, Line CD, Line DA){
 }
 
 int Field::inTheCorner(Point p){
+	// checks if the starting point is at an angle
 	int IsintheCorner = 0; // not in the corner
 	for(int i = 0; i < 4; i++){ 
 		if(p.x == endPoints[i].x && p.y == endPoints[i].y){
@@ -53,6 +53,31 @@ int Field::inTheCorner(Point p){
 		}
 	}
 	return IsintheCorner;
+}
+
+int Field:: FallingIntoCorner(Point p, Line onLine){
+	// we check if the ball falls into one of the pockets on the table
+	int corner = 0;
+	
+    if(inTheCorner(p) !=0){
+		// the ball is in the corner
+        int WhichCorner = inTheCorner(p);
+        ball.center.x = startingPoint.x;
+        ball.center.y = startingPoint.y;
+		corner = WhichCorner;
+    }
+	else{
+		for(int i = 0; i < 4; i++){
+			if(onLine.A*endPoints[i].x + onLine.B*endPoints[i].y + onLine.C == 0){
+				// the ball and the corner of the table lie on one linе
+				// the ball returns to the beginning
+				ball.center.x = startingPoint.x;
+				ball.center.y = startingPoint.y;
+				corner = i;
+			}
+		}
+	}
+	return corner;
 }
 
 void Field::hit(Point target, double power) {
@@ -88,9 +113,11 @@ void Field::hit(Point target, double power) {
     }
 
 	Point FinalPoint;
+	// calculation of the end point of the ball after impact
 	FinalPoint.x = startingPoint.x + ( (target.x-startingPoint.x) *power);
 	FinalPoint.y = startingPoint.y + ( (target.y-startingPoint.y) *power);
-
+	
+	//movement(FinalPoint, AB, BC, CD, DA); // moving the ball
 }
 ostream& operator<<(ostream& os, const Field& f) {
 	os << "Field points:" << endl;

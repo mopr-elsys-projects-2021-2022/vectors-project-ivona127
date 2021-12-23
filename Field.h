@@ -14,6 +14,8 @@ public:
 	Field(Point endPoints[4], Ball ball);
 	int Place(Point p, Line AB, Line BC, Line CD, Line DA);
 	int inTheCorner(Point p);
+	int FallingIntoCorner(Point p, Line onLine);
+	void movement(Point end, Line AB, Line BC, Line CD, Line DA);
 	void hit(Point target, double power);
 
 	friend ostream& operator<<(ostream& os, const Field& f);
