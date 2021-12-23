@@ -45,6 +45,10 @@ void Field::hit(Point target, double power) {
     Line CD(endPointsWithBallRadius[2], endPointsWithBallRadius[3]);
     Line DA(endPointsWithBallRadius[3], endPointsWithBallRadius[0]);
 
+	Point FinalPoint;
+	FinalPoint.x = startingPoint.x + ( (target.x-startingPoint.x) *power);
+	FinalPoint.y = startingPoint.y + ( (target.y-startingPoint.y) *power);
+	
 }
 ostream& operator<<(ostream& os, const Field& f) {
 	os << "Field points:" << endl;
