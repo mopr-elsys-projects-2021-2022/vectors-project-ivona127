@@ -49,7 +49,7 @@ int Field::inTheCorner(Point p){
 	int IsintheCorner = 0; // not in the corner
 	for(int i = 0; i < 4; i++){ 
 		if(p.x == endPoints[i].x && p.y == endPoints[i].y){
-			IsintheCorner = i; // save the corner
+			IsintheCorner = i+1; // save the corner
 		}
 	}
 	return IsintheCorner;
