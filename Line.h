@@ -1,6 +1,10 @@
 #pragma once
+#include "Point.h"
 
 class Line {
-	double A, B, C;
+	public:
+		double A, B, C;
+		Line(Point& p1, Point& p2);
+		Line(double A, double B);
 };
 

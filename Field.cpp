@@ -9,6 +9,7 @@ Field::Field(Point origin, double width, double height, Ball ball) {
 	endPoints[3] = Point(origin.x, origin.y + height);
 
 	this->ball = ball;
+	this->startingPoint = ball.center;
 }
 
 Field::Field(Point endPoints[4], Ball ball) {
@@ -17,12 +18,34 @@ Field::Field(Point endPoints[4], Ball ball) {
 	}
 
 	this->ball = ball;
+	this->startingPoint = ball.center;
 }
 
 void Field::hit(Point target, double power) {
+	if(power < 1 || power > 10){
+        cout << "The power must be in";
+    }
+    
+	if (ball.diameter < 0 ){
+        cout << "The diameter must not be less than 0";
+    }
+
+	Point endPointsWithBallRadius[4];
+    double radius = ball.diameter/2;
+    
+	// Shortening the field with the radius of the ball
+	endPointsWithBallRadius[0] = Point(endPoints[0].x + radius, endPoints[0].y + radius);
+    endPointsWithBallRadius[1] = Point(endPoints[1].x - radius, endPoints[1].y + radius);
+    endPointsWithBallRadius[2] = Point(endPoints[2].x - radius, endPoints[2].y - radius);
+    endPointsWithBallRadius[3] = Point(endPoints[3].x + radius, endPoints[3].y - radius);
+	
+	// create the line of the field without the radius of the ball
+    Line AB(endPointsWithBallRadius[0], endPointsWithBallRadius[1]);
+    Line BC(endPointsWithBallRadius[1], endPointsWithBallRadius[2]);
+    Line CD(endPointsWithBallRadius[2], endPointsWithBallRadius[3]);
+    Line DA(endPointsWithBallRadius[3], endPointsWithBallRadius[0]);
 
 }
-
 ostream& operator<<(ostream& os, const Field& f) {
 	os << "Field points:" << endl;
 	for(int i = 0; i < 4; i++)
