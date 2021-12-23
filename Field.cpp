@@ -170,12 +170,18 @@ void Field::hit(Point target, double power) {
         cout << "The starting point is in the corner."<< endl;
     }
 
-	Point FinalPoint;
-	// calculation of the end point of the ball after impact
-	FinalPoint.x = startingPoint.x + ( (target.x-startingPoint.x) *power);
-	FinalPoint.y = startingPoint.y + ( (target.y-startingPoint.y) *power);
-	
-	movement(FinalPoint, AB, BC, CD, DA); // moving the ball
+	 if(inTheCorner(target)!=0){
+        ball.center.x = startingPoint.x;
+        ball.center.y = startingPoint.y;
+    }
+	else{
+		Point FinalPoint;
+		// calculation of the end point of the ball after impact
+		FinalPoint.x = startingPoint.x + ( (target.x-startingPoint.x) *power);
+		FinalPoint.y = startingPoint.y + ( (target.y-startingPoint.y) *power);
+		FallingIntoCorner(FinalPoint, Line(startingPoint, FinalPoint));
+		movement(FinalPoint, AB, BC, CD, DA); // moving the ball
+	}
 }
 ostream& operator<<(ostream& os, const Field& f) {
 	os << "Field points:" << endl;
