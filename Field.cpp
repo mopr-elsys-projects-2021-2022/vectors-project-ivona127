@@ -45,13 +45,23 @@ int Field::Place(Point p, Line AB, Line BC, Line CD, Line DA){
 	return place;
 }
 
+int Field::inTheCorner(Point p){
+	int IsintheCorner = 0; // not in the corner
+	for(int i = 0; i < 4; i++){ 
+		if(p.x == endPoints[i].x && p.y == endPoints[i].y){
+			IsintheCorner = i; // save the corner
+		}
+	}
+	return IsintheCorner;
+}
+
 void Field::hit(Point target, double power) {
 	if(power < 1 || power > 10){
-        cout << "The power must be in";
+        cout << "The power must be in" << endl;
     }
     
 	if (ball.diameter < 0 ){
-        cout << "The diameter must not be less than 0";
+        cout << "The diameter must not be less than 0"<< endl;
     }
 
 	Point endPointsWithBallRadius[4];
@@ -70,7 +80,11 @@ void Field::hit(Point target, double power) {
     Line DA(endPointsWithBallRadius[3], endPointsWithBallRadius[0]);
 
 	if(Place(startingPoint, AB, BC, CD, DA) !=0 ){
-        throw "Wrong strating point.";
+        cout << "Wrong strating point."<< endl;
+    }
+
+	if(inTheCorner(startingPoint)!=0){
+        cout << "The starting point is in the corner."<< endl;
     }
 
 	Point FinalPoint;
